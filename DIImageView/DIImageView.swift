@@ -11,8 +11,14 @@ import UIKit
 class DIImageView: UIImageView, UITextFieldDelegate {
     
     var captionCenterYForKeyboard: CGFloat?
+    var captionAlpha: CGFloat = captionAlphaDefault {
+        didSet {
+            caption.backgroundColor = UIColor.black.withAlphaComponent(captionAlpha)
+        }
+    }
     
     private static let captionAnimationDuration: TimeInterval = 0.3
+    private static let captionAlphaDefault: CGFloat = 0.5
     
     // MARK: - Lifecycle
     
@@ -43,7 +49,7 @@ class DIImageView: UIImageView, UITextFieldDelegate {
     
     private lazy var caption: UITextField = {
         let textField = UITextField()
-        textField.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        textField.backgroundColor = UIColor.black.withAlphaComponent(captionAlphaDefault)
         textField.textAlignment = .center
         textField.textColor = .white
         textField.tintColor = .white

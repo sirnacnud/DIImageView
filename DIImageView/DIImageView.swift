@@ -10,6 +10,10 @@ import UIKit
 
 class DIImageView: UIImageView, UITextFieldDelegate {
     
+    var captionCenterYForKeyboard: CGFloat?
+    
+    private static let captionAnimationDuration: TimeInterval = 0.3
+    
     // MARK: - Lifecycle
     
     override init(frame: CGRect) {
@@ -90,9 +94,23 @@ class DIImageView: UIImageView, UITextFieldDelegate {
         return (textSize.width + 16 < textField.bounds.size.width)
     }
     
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        guard caption == textField else { return }
+        if let centerY = captionCenterYForKeyboard {
+            UIView.animate(withDuration: DIImageView.captionAnimationDuration) {
+                self.caption.center = CGPoint(x: self.caption.center.x, y: centerY)
+            }
+        }
+    }
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard caption == textField else { return }
         caption.isHidden = caption.text?.isEmpty ?? true
+        if let _ = captionCenterYForKeyboard {
+            UIView.animate(withDuration: DIImageView.captionAnimationDuration) {
+                self.caption.center = CGPoint(x: self.caption.center.x, y: self.captionCenterY)
+            }
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

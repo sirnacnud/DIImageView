@@ -27,6 +27,7 @@ class DIImageView: UIImageView, UITextFieldDelegate {
     }
     
     private func configure() {
+        caption.isHidden = true
         addSubview(caption)
         addGestureRecognizer(tapRecognizer)
         addGestureRecognizer(panRecognizer)
